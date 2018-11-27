@@ -1,0 +1,24 @@
+<template>
+  <div id="app">
+    <router-view/>
+    <foot-guide v-show="$route.meta.isShow"></foot-guide>
+  </div>
+</template>
+
+<script>
+import FootGuide from '@/components/FooterGuide/footerGuide.vue'
+export default {
+  name: 'App',
+  components: {
+    FootGuide
+  },
+  mounted(){
+    console.log(this.$route.meta.isShow);
+  }
+
+}
+</script>
+
+<style>
+
+</style>
