@@ -11,11 +11,7 @@ export default {
   name: 'App',
   components: {
     FootGuide
-  },
-  mounted(){
-    console.log(this.$route.meta.isShow);
   }
-
 }
 </script>
 
