@@ -3,6 +3,7 @@ export default{
   longitude: 116.36867, // 经度
   address: {}, // 地址信息对象
   shopList:[], //商铺列表
-  foodCategory:[],
+  foodCategory:[],//首页轮播的商品展示
+  user:{} //存放用户信息
 }
 

@@ -3,7 +3,6 @@ import axios from "axios";
 export default function ajax(url,data={},method="GET"){
   //设置get请求
  return  new Promise((resolve,reject)=>{
-
    let promise;
    if(method==="GET"){
      let queryUrl="";

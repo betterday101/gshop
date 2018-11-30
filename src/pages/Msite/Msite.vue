@@ -11,7 +11,7 @@
     </common-header>
     <!--首页导航-->
     <nav class="msite_nav">
-      <div class="swiper-container">
+      <div v-if="getSwiperArr.length"  class="swiper-container">
           <div class="swiper-wrapper">
             <div v-for="(item,index) in getSwiperArr" class="swiper-slide" >
               <a v-for="(single,index) in item" href="javascript:" class="link_to_food">
@@ -25,6 +25,7 @@
         <!-- Add Pagination -->
         <div class="swiper-pagination swiper-pagination-bullets"><span class="swiper-pagination-bullet"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active"></span></div>
       </div>
+      <img  v-else="" src="./images/msite_back.svg" alt="" >
     </nav>
     <div class="msite_shop_list">
       <div class="shop_header">

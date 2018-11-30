@@ -7,10 +7,14 @@
 
 <script>
 import FootGuide from '@/components/FooterGuide/footerGuide.vue'
+
 export default {
   name: 'App',
   components: {
     FootGuide
+  },
+  mounted(){
+    this.$store.dispatch("getUserinfo");
   }
 }
 </script>

@@ -5,9 +5,11 @@ import Order from '@/pages/Order/Order.vue'
 import Profile from '@/pages/Profile/Profile.vue'
 import Search from '@/pages/Search/Search.vue'
 import Login from '@/pages/Login/Login.vue'
+import Shop from '@/pages/Shop/Shop.vue'
 
 Vue.use(Router)
 export default new Router({
+  mode:"history",
   routes: [
     {
       path: '/msite',
@@ -40,6 +42,10 @@ export default new Router({
     {
       path: '/login',
       component: Login
+    } ,
+    {
+      path: '/shop',
+      component: Shop
     } ,
     {
       path: '/',
