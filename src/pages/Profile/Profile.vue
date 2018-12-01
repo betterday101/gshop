@@ -90,12 +90,16 @@
         </div>
       </a>
     </section>
+    <section class="profile_my_order border-1px" v-if="user._id">
+      <mt-button @click="logOut" type="danger" style="width:100%">退出登录</mt-button>
+    </section>
   </section>
 </template>
 
 <script>
   import commonHeader from '@/components/CommonHeader/commonHeader.vue'
   import {mapState} from 'vuex'
+  import {MessageBox} from 'mint-ui'
     export default {
         name: "Profile",
         components:{
@@ -111,6 +115,13 @@
         methods:{
           toLogin(){
             this.$router.replace("./login")
+          },
+          logOut(){
+            MessageBox.confirm('Are you sure?').then(
+               ()=> {this.$store.dispatch("getlogOut");},//
+               ()=> {console.log("bbb")}//这个表示取消
+            );
+
           }
         }
     }

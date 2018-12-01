@@ -24,4 +24,11 @@ export const reqLoginSms =(phone,code)=> Ajax(BASE+'/login_sms',{phone,code},"PO
 export const reqUserinfo =()=> Ajax(BASE+'/userinfo');
 
 // 10、用户登出<br/>
-export const reqLogout =()=> Ajax(BASE+'/logout')
+export const reqLogout =()=> Ajax(BASE+'/logout');
+
+//商家商品
+export const  reqShopGoods=()=>Ajax('/shopgoods');
+//商家评价
+export const  reqShopRatings=()=>Ajax('/shopratings');
+//商家信息
+export const  reqShopInfo=()=>Ajax('/shopinfo');
