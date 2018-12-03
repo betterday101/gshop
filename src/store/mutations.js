@@ -5,7 +5,8 @@ import {RECEIVE_SHOPS,
   SHOP_RATINGS,
   SHOP_INFO,
   SHOP_GOODS,
-  CHANGE_FOOD_COUNT
+  CHANGE_FOOD_COUNT,
+  CLEAR_CART
   } from './mutation-type'
 import Vue from 'vue'
 export default{
@@ -31,16 +32,26 @@ export default{
       state.shopgoods=shopgoods;
     },
     [CHANGE_FOOD_COUNT](state,{count,food}){
-      debugger
       if(!food.count)
       {
         Vue.set(food, 'count', 1);
+        state.shopCart.push(food);
       }
       else {
         if(food.count>0){
            food.count+=count;
         }
+        if(food.count===0){
+          state.shopCart.splice(state.shopCart.indexOf(food),1);
+        }
       }
 
-    }
+    },
+
+    [CLEAR_CART](state){
+      state.shopCart.forEach((item,index)=>{
+        item.count=0;
+      });
+      state.shopCart=[];
+    },
 }

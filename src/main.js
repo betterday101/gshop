@@ -6,8 +6,11 @@ import App from './App'
 import router from './router'
 import store from './store'
 import './mock/mockServer'
+import Split from './components/Split/Split.vue'
 
 Vue.config.productionTip = false
+// 注册为全局组件标签
+Vue.component('Split', Split)
 Vue.component(Button.name,Button);
 /* eslint-disable no-new */
 new Vue({

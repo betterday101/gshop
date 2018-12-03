@@ -1,5 +1,5 @@
 import {reqShopList,reqFoodList,reqLoginSms,reqUserinfo,reqLogout,reqShopGoods,reqShopRatings,reqShopInfo} from '@/api'
-import {RECEIVE_SHOPS,FOOD_LIST,SAVE_USER,RESET_USER,SHOP_GOODS,SHOP_INFO,SHOP_RATINGS,CHANGE_FOOD_COUNT} from './mutation-type'
+import {RECEIVE_SHOPS,FOOD_LIST,SAVE_USER,RESET_USER,SHOP_GOODS,SHOP_INFO,SHOP_RATINGS,CHANGE_FOOD_COUNT,CLEAR_CART} from './mutation-type'
 
 export default{
 
@@ -72,5 +72,11 @@ export default{
   //商品数量增加更新
   async getCountFood({commit,state},{count,food}){
       commit(CHANGE_FOOD_COUNT,{count,food});
+  },
+
+
+  //清空购物车
+  async clearCart({commit}){
+    commit(CLEAR_CART);
   },
 }

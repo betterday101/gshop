@@ -1,8 +1,8 @@
 <template>
     <div class="goods">
       <div class="menu-wrapper">
-        <ul>
-          <li class="menu-item" v-for="(goods ,index) in shopgoods">
+        <ul ref="menuUl">
+          <li @click="selectItem(index)" class="menu-item" :class="{current:currentIndex===index}" v-for="(goods ,index) in shopgoods">
             <span class="text bottom-border-1px">
               <img class="icon" v-if="goods.icon" :src="goods.icon">
               {{goods.name}}
@@ -11,35 +11,37 @@
         </ul>
       </div>
       <div class="foods-wrapper">
-        <ul>
+        <ul ref="foodUl">
           <li class="food-list-hook" v-for="(goods ,index) in shopgoods" @key="index">
             <h1 class="title">{{goods.name}}</h1>
             <ul>
-              <li class="food-item bottom-border-1px" v-for="(food,index) in goods.foods" @key="index">
-                <div class="icon">
-                  <img width="57" height="57"
-                       :src="`${food.icon}`">
-                </div>
-                <div class="content">
-                  <h2 class="name">{{food.name}}</h2>
-                  <p class="desc">{{food.description}}</p>
-                  <div class="extra">
-                    <span class="count">月售{{food.sellCount}}份</span>
-                    <span>好评率{{food.rating}}%</span>
+              <li @click="showFood(food,true)"  class="food-item bottom-border-1px" v-for="(food,index) in goods.foods" @key="index">
+                  <div class="icon">
+                    <img width="57" height="57"
+                         :src="`${food.icon}`">
                   </div>
-                  <div class="price">
-                    <span class="now">￥{{food.price}}</span>
-                    <span class="old" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
+                  <div class="content">
+                    <h2 class="name">{{food.name}}</h2>
+                    <p class="desc">{{food.description}}</p>
+                    <div class="extra">
+                      <span class="count">月售{{food.sellCount}}份</span>
+                      <span>好评率{{food.rating}}%</span>
+                    </div>
+                    <div class="price">
+                      <span class="now">￥{{food.price}}</span>
+                      <span class="old" v-if="food.oldPrice">￥{{food.oldPrice}}</span>
+                    </div>
+                    <div class="cartcontrol-wrapper">
+                      <cart-control :food="food"></cart-control>
+                    </div>
                   </div>
-                  <div class="cartcontrol-wrapper">
-                    <cart-control :food="food"></cart-control>
-                  </div>
-                </div>
               </li>
             </ul>
           </li>
         </ul>
       </div>
+      <Food :food="food" v-show="isShowFood" @showFood="showFood"/>
+      <shop-cart></shop-cart>
     </div>
 </template>
 
@@ -47,29 +49,105 @@
   import {mapState} from 'vuex'
   import BScroll from 'better-scroll'
   import cartControl from '../../../components/CartControl/CartControl'
+  import Food from '../../../components/Food/Food.vue'
+  import ShopCart from '../../../components/ShopCart/ShopCart.vue'
     export default {
       name: "shop-goods",
       computed:{
         //...mapState(["shopgoods"])//等同下面的写法
         shopgoods(){
           return  this.$store.state.shopgoods;
+        },
+        currentIndex(){
+          const {tops,scrollY}=this;
+          const index=tops.findIndex((top,index)=>{
+              return scrollY>=top&&scrollY<tops[index+1]
+            });
+
+          //如果当前分类的下标发生了变化，就让左侧列表滚动到index对应的li处
+          if(index!=this.index&&this.scrollMenu){
+              this.index=index;
+              //const lis=this.$refs.menuUl.querySelectorAll("li");
+              const lis=this.$refs.menuUl.children;
+              this.scrollMenu.scrollToElement(lis[index])
+          }
+          return index
         }
       },
       components:{
-        cartControl
+        cartControl,
+        Food,
+        ShopCart
+      },
+      data(){
+         return {
+           food:{},
+           isShowFood:false,
+           tops:[0,5],
+           scrollY:0 //这个表示当前滑动的值
+         }
       },
       mounted(){
         this.$store.dispatch("getShoopGoods",()=>{
            this.$nextTick(()=>{
              this._initScroll();
+             this._initTops();
            })
         });
+
       },
       methods:{
         _initScroll(){
-            new BScroll('.menu-wrapper',{});
-            new BScroll('.foods-wrapper',{});
+           this.scrollMenu=new BScroll('.menu-wrapper',{});
+           this.scrollFoods=new BScroll('.foods-wrapper',{
+               click:true,
+               probeType:1
+           });
+
+          // 绑定滚动的事件监听
+          this.scrollFoods.on('scroll', ({x, y}) => {
+            console.log('scroll', x, y)
+            // 更新scrollY
+            this.scrollY = Math.abs(y)
+          })
+          this.scrollFoods.on("scrollEnd",({x,y})=>{
+            console.log("scrollEnd",{x,y});
+            this.scrollY=Math.abs(y);
+          })
+
+        },
+        _initTops(){
+          const tops=[];
+          let top =0;
+          tops.push(top)
+          //querySelectorAll可以用foreEach遍历，伪数组
+          //const lis= this.$refs.foodUl.querySelectorAll(".food-list-hook");
+          // const lis= this.$refs.foodUl.getElementsByClassName("food-list-hook");
+          // lis.forEach((li)=>{
+          //   top+=li.clientHeight;
+          //   tops.push(top);
+          // });
+          //getElementsByClassName可以用用slice转成伪数组后用foreEach遍历，
+          const lis= this.$refs.foodUl.getElementsByClassName("food-list-hook");
+          Array.prototype.slice.call(lis).forEach((li)=>{
+            top+=li.clientHeight;
+            tops.push(top);
+          });
+
+          this.tops=tops;
+        },
+        showFood(food,bool){
+           this.food=food;
+           this.isShowFood=bool;
+        },
+        //选择左侧分类项
+        selectItem(index){
+          //计算目标位置的坐标
+          const y=-this.tops[index];
+          this.scrollY=-y;
+          this.scrollFoods.scrollTo(0,y,30);
         }
+
       }
 
     }

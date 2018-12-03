@@ -8,6 +8,6 @@ export default{
   shopgoods: [], // 商品列表
   shopratings: [], // 商家评价列表
   shopinfo: {}, // 商家信息
-
+  shopCart: [], // 购物车
 }
 
