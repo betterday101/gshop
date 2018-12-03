@@ -98,9 +98,9 @@
       },
       methods:{
         _initScroll(){
-           this.scrollMenu=new BScroll('.menu-wrapper',{});
+           this.scrollMenu=new BScroll('.menu-wrapper',{
+           });
            this.scrollFoods=new BScroll('.foods-wrapper',{
-               click:true,
                probeType:1
            });
 

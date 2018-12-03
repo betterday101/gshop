@@ -42,6 +42,8 @@ export default{
       commit(RESET_USER);
     }
   },
+
+
   //商家商品<br/>
   async getShoopGoods({commit},callback){
     const result= await reqShopGoods();
