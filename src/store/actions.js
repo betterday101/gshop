@@ -54,11 +54,12 @@ export default{
     }
   },
   //商家评价<br/>
-  async getShopRatings({commit}){
+  async getShopRatings({commit},callback){
     const result= await reqShopRatings();
     if(result.code===0){
       const ratings=result.data;
       commit(SHOP_RATINGS,{ratings});
+      typeof callback==='function'&&callback();
     }
   },
   //商家信息<br/>
@@ -66,7 +67,6 @@ export default{
     const result= await reqShopInfo();
     if(result.code===0){
       const shopinfo=result.data;
-      shopinfo.score=2.8;
       commit(SHOP_INFO,{shopinfo});
     }
   },

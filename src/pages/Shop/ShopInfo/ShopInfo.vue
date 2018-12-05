@@ -75,7 +75,7 @@
           }
       },
       mounted(){
-        console.log(this.$refs.picUl.children);
+          console.log(this.$refs.picUl.children);
           if(!this.shopinfo.name)
           return
           this._initScroll();

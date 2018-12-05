@@ -6,7 +6,9 @@ import App from './App'
 import router from './router'
 import store from './store'
 import './mock/mockServer'
+
 import Split from './components/Split/Split.vue'
+import './filters'
 
 Vue.config.productionTip = false
 // 注册为全局组件标签

@@ -24,7 +24,7 @@
         </div>
       </div>
       <Split/>
-      <rating-select :type="type" :onlyContent="onlyContent" @selectType="selectType" @toggleOnlyContent="setonlyContent"></rating-select>
+      <rating-select ref="ratingSelect" :getData="getdata"></rating-select>
       <div class="rating-wrapper">
         <ul>
           <li class="rating-item" v-for="(item,index) in filterRatings" :key="index">
@@ -62,17 +62,14 @@
           Star,
           RatingSelect
         },
-        data(){
-          return {
-            type:2,  //0推荐,1不推荐,2全部
-            onlyContent:true  //只显示有内容的评价
-          }
-        },
         computed:{
           ...mapState(["shopinfo","shopratings"]),
            filterRatings(){
              const {shopratings,onlyContent,type}=this;
-             return shopratings.filter((rating,index)=>{
+             console.log(onlyContent);
+             if(!onlyContent)  return
+             console.log(shopratings, onlyContent, type);
+             shopratings.filter((rating,index)=>{
                const {rateType,text}=rating;
                /*
                  条件1
@@ -99,19 +96,19 @@
            this.$store.dispatch("getShopRatings",()=>{
              this.$nextTick(()=>{
                  new Bscroll(".ratings",{});
-
+                 this.type=this.$refs.ratingSelect._data.type;
+                 this.onlyContent=this.$refs.ratingSelect._data.onlyContent;
              })
            });
 
         },
-        methods:{
-          selectType(type){
-            this.type=type
-          },
-          setonlyContent(){
-            this.onlyContent=! this.onlyContent
-          }
-        }
+
+       methods:{
+         getdata(a,b){
+             this[a]=b;
+             console.log(this,this[a]=b);
+         }
+       }
 
     }
 </script>

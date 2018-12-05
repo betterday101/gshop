@@ -1,6 +1,7 @@
 import Ajax from './ajax'
 
-const BASE="/api";
+ const BASE="/api";
+// const BASE="";
 // 1、根据经纬度获取位置详情<br/>
 export function reqLocation(latitude,longitude){ return Ajax(BASE+`/position/${latitude},${longitude}`)}
 //export const reqLocation =(location)=> Ajax(`/api/position/${location}`)
