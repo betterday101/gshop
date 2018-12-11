@@ -1,0 +1,9 @@
+export const RECEIVE_SHOPS='receive_shops'//接收商铺列表
+export const FOOD_LIST='food_list'//接收商铺列表
+export const SAVE_USER='save_user'//接收用户数据
+export const RESET_USER='reset_user'//用户退出登录
+export const SHOP_GOODS='shop_goods'//店铺商品
+export const SHOP_RATINGS='shop_ratings'//店铺评价
+export const SHOP_INFO='shop_info'    //店铺信息
+export const CHANGE_FOOD_COUNT='change_food_count' //计算购物车商品数量
+export const CLEAR_CART='clear_cart' //清空购物车

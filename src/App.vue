@@ -12,10 +12,9 @@ export default {
   components: {
     FootGuide
   },
-  mounted(){
-    console.log(this.$route.meta.isShow);
+  async mounted(){
+    this.$store.dispatch("getUserinfo");
   }
-
 }
 </script>
 
