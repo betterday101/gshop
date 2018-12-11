@@ -7,12 +7,14 @@
           <i class="iconfont icon-person"></i>
         </div>
         <div class="user-info">
-          <p class="user-info-top">登录/注册</p>
+          <p class="user-info-top" v-if="!user.phone">
+            {{user.name?user.name:'登录/注册'}}</p>
           <p>
-                <span class="user-icon">
-                  <i class="iconfont icon-shouji icon-mobile"></i>
-                </span>
-            <span class="icon-mobile-number">暂无绑定手机号</span>
+          <p v-if="!user.name">
+            <span class="user-icon">
+              <i class="iconfont icon-shouji icon-mobile"></i>
+            </span>
+            <span class="icon-mobile-number">{{user.phone?user.phone:'暂无绑定手机号'}}</span>
           </p>
         </div>
         <span class="arrow">
@@ -88,19 +90,38 @@
         </div>
       </a>
     </section>
+    <section class="profile_my_order border-1px" v-if="user._id">
+      <mt-button @click="logOut" type="danger" style="width:100%">退出登录</mt-button>
+    </section>
   </section>
 </template>
 
 <script>
   import commonHeader from '@/components/CommonHeader/commonHeader.vue'
+  import {mapState} from 'vuex'
+  import {MessageBox} from 'mint-ui'
     export default {
         name: "Profile",
         components:{
           commonHeader
         },
+
+        computed: {
+           ...mapState(["user"])//等同下面
+          // user() {
+          //   return this.$store.state.user
+          // },
+        },
         methods:{
           toLogin(){
             this.$router.replace("./login")
+          },
+          logOut(){
+            MessageBox.confirm('Are you sure?').then(
+               ()=> {this.$store.dispatch("getlogOut");},//
+               ()=> {console.log("bbb")}//这个表示取消
+            );
+
           }
         }
     }
